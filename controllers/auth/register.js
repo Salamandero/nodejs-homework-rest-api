@@ -9,7 +9,8 @@ const register = async (req, res) => {
   if (user) {
     throw new Conflict(`Email in use (${email})`);
   }
-  const avatarURL = gravatar.url(email);
+  const avatarURL = gravatar.url(email, { protocol: "https", s: "250" });
+
   const newUser = new User({ email, subscription, avatarURL });
 
   newUser.setPassword(password);
