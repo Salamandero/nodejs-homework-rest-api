@@ -1,11 +1,7 @@
 const express = require("express");
 
-const {
-  auth,
-  validation,
-  ctrlWrapper,
-  isValidId,
-} = require("../../middlewares");
+const { auth, validation, isValidId } = require("../../middlewares");
+const { ctrlWrapper } = require("../../helpers");
 const { joiSchema, updateFavorite } = require("../../utils/validation");
 const {
   contacts: {

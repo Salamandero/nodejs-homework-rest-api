@@ -1,6 +1,7 @@
 const express = require("express");
 
-const { auth, validation, ctrlWrapper } = require("../../middlewares");
+const { ctrlWrapper } = require("../../helpers");
+const { auth, validation } = require("../../middlewares");
 const {
   auth: { register, login, logout },
 } = require("../../controllers");

@@ -1,5 +1,4 @@
-const { NotFound } = require("http-errors");
-
+const { HttpError } = require("../../helpers");
 const { Contact } = require("../../models");
 
 const updateStatusContact = async (req, res) => {
@@ -11,7 +10,8 @@ const updateStatusContact = async (req, res) => {
     { new: true }
   );
   if (!result) {
-    throw new NotFound(
+    throw new HttpError(
+      404,
       `Missing field favorite. Contacts with id=${id} not found`
     );
   }

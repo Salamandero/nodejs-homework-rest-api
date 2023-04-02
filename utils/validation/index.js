@@ -1,6 +1,7 @@
 const {
   joiRegisterSchema,
   joiLoginSchema,
+  joiVerifyEmailSchema,
 } = require("./authValidationSchemas");
 const { joiSchema, updateFavorite } = require("./contactValidationSchema");
 
@@ -9,4 +10,5 @@ module.exports = {
   joiLoginSchema,
   joiSchema,
   updateFavorite,
+  joiVerifyEmailSchema,
 };
