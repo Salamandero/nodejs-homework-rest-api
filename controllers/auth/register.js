@@ -1,20 +1,38 @@
-const { Conflict } = require("http-errors");
 const gravatar = require("gravatar");
+const { v4: uuidv4 } = require("uuid");
 
+const { sendEmail } = require("../../helpers");
 const { User } = require("../../models");
+const { HttpError } = require("../../helpers");
 
 const register = async (req, res) => {
   const { email, password, subscription } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw new Conflict(`Email in use (${email})`);
+    throw new HttpError(409, `Email already exist (${email})`);
   }
   const avatarURL = gravatar.url(email, { protocol: "https", s: "250" });
 
-  const newUser = new User({ email, subscription, avatarURL });
+  const verificationToken = uuidv4();
+  const newUser = new User({
+    email,
+    subscription,
+    avatarURL,
+    verificationToken,
+  });
 
   newUser.setPassword(password);
-  newUser.save();
+  await newUser.save();
+
+  const mail = {
+    to: email,
+    from: "korchevskyi@meta.ua",
+    subject: "Send confirm email",
+    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Сonfirm email</a>`,
+  };
+
+  await sendEmail(mail);
+
   res.status(201).json({
     user: {
       status: "success",
@@ -24,6 +42,7 @@ const register = async (req, res) => {
           email,
           subscription,
           avatarURL,
+          verificationToken,
         },
       },
     },

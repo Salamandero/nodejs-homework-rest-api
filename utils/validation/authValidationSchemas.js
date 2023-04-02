@@ -11,4 +11,8 @@ const joiLoginSchema = Joi.object({
   password: Joi.string().min(8).max(128).required(),
 });
 
-module.exports = { joiRegisterSchema, joiLoginSchema };
+const joiVerifyEmailSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+module.exports = { joiRegisterSchema, joiLoginSchema, joiVerifyEmailSchema };
